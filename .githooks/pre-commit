@@ -1,0 +1,22 @@
+#!/bin/sh
+# Hook de pre-commit: corre pytest y bloquea el commit si algun test falla.
+# Activar una vez por clon con: git config core.hooksPath .githooks
+
+# Usa el interprete del entorno virtual si existe (Windows o Linux/macOS).
+if [ -x ".venv/Scripts/python.exe" ]; then
+    PY=".venv/Scripts/python.exe"
+elif [ -x ".venv/bin/python" ]; then
+    PY=".venv/bin/python"
+else
+    PY="python"
+fi
+
+"$PY" -m pytest -q
+code=$?
+
+# Codigo 5 = pytest no encontro tests. Se permite solo mientras el proyecto no tiene tests.
+if [ "$code" -eq 5 ]; then
+    echo "AVISO: pytest no encontro tests; commit permitido."
+    exit 0
+fi
+exit "$code"
