@@ -21,4 +21,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run tests
-        run: pytest -v
+        run: pytest -v --junitxml=reports/junit-${{ matrix.python-version }}.xml
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-report-${{ matrix.python-version }}
+          path: reports/junit-${{ matrix.python-version }}.xml
