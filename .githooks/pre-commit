@@ -13,10 +13,4 @@ fi
 
 "$PY" -m pytest -q
 code=$?
-
-# Codigo 5 = pytest no encontro tests. Se permite solo mientras el proyecto no tiene tests.
-if [ "$code" -eq 5 ]; then
-    echo "AVISO: pytest no encontro tests; commit permitido."
-    exit 0
-fi
 exit "$code"
