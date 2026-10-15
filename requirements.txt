@@ -1,0 +1,4 @@
+qiskit==2.5.2
+qiskit-aer==0.17.2
+matplotlib==3.11.2
+pytest==9.1.1
