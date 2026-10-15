@@ -1,0 +1,16 @@
+#!/bin/sh
+# Hook de pre-commit: corre pytest y bloquea el commit si algun test falla.
+# Activar una vez por clon con: git config core.hooksPath .githooks
+
+# Usa el interprete del entorno virtual si existe (Windows o Linux/macOS).
+if [ -x ".venv/Scripts/python.exe" ]; then
+    PY=".venv/Scripts/python.exe"
+elif [ -x ".venv/bin/python" ]; then
+    PY=".venv/bin/python"
+else
+    PY="python"
+fi
+
+"$PY" -m pytest -q
+code=$?
+exit "$code"
